@@ -1,0 +1,207 @@
+{
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\.openclaude\\settings.local.json": {
+    "mtime": 1781364352.2356036,
+    "ast_hash": "ae1fd1a1e13d2e01356967bad3376548",
+    "semantic_hash": "ae1fd1a1e13d2e01356967bad3376548"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\build.gradle.kts": {
+    "mtime": 1781172249.6645255,
+    "ast_hash": "2ea1ed3afa204d00846fc037be745709",
+    "semantic_hash": "2ea1ed3afa204d00846fc037be745709"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\androidTest\\java\\com\\example\\andbook\\ui\\main\\MainScreenTest.kt": {
+    "mtime": 1781170077.2768836,
+    "ast_hash": "620162459c0f3a86a5cba53b29222921",
+    "semantic_hash": "620162459c0f3a86a5cba53b29222921"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\MainActivity.kt": {
+    "mtime": 1781269273.934689,
+    "ast_hash": "734d3361cb2b62fcedd29e0a2657fc42",
+    "semantic_hash": "734d3361cb2b62fcedd29e0a2657fc42"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\Navigation.kt": {
+    "mtime": 1781269282.26023,
+    "ast_hash": "622277e59a5640e488646897a071078b",
+    "semantic_hash": "622277e59a5640e488646897a071078b"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\NavigationKeys.kt": {
+    "mtime": 1781215277.6347916,
+    "ast_hash": "60c104c131975e78608dbf0fa4dcf74c",
+    "semantic_hash": "60c104c131975e78608dbf0fa4dcf74c"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\data\\DataRepository.kt": {
+    "mtime": 1781275113.666614,
+    "ast_hash": "5d98c623c2884887b3d7885f2b331bd4",
+    "semantic_hash": "5d98c623c2884887b3d7885f2b331bd4"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\data\\Models.kt": {
+    "mtime": 1781365448.9602423,
+    "ast_hash": "a9b3b72a28de9906eb9ccfb6c48436b2",
+    "semantic_hash": "a9b3b72a28de9906eb9ccfb6c48436b2"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\reader\\BookCoverHelper.kt": {
+    "mtime": 1781202990.2951882,
+    "ast_hash": "818d91f734b75fb2fc1c90533b663902",
+    "semantic_hash": "818d91f734b75fb2fc1c90533b663902"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\reader\\BookPaginator.kt": {
+    "mtime": 1781196544.881968,
+    "ast_hash": "a31af18566f4a1ffa1820d7e7fdb359d",
+    "semantic_hash": "a31af18566f4a1ffa1820d7e7fdb359d"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\reader\\CbzParser.kt": {
+    "mtime": 1781279049.8477082,
+    "ast_hash": "856fbcf65f7f9166373c8de87597b2d8",
+    "semantic_hash": "856fbcf65f7f9166373c8de87597b2d8"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\reader\\EpubParser.kt": {
+    "mtime": 1781365308.474754,
+    "ast_hash": "64a1d43b174a71636ccbef1c5baca1df",
+    "semantic_hash": "64a1d43b174a71636ccbef1c5baca1df"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\reader\\PdfRendererHelper.kt": {
+    "mtime": 1781282212.2999852,
+    "ast_hash": "d6325ec216cbcd7bcd886697f3ef1adc",
+    "semantic_hash": "d6325ec216cbcd7bcd886697f3ef1adc"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\reader\\TtsHelper.kt": {
+    "mtime": 1781245154.3420522,
+    "ast_hash": "057c0aa049424240694667ab243ebdd9",
+    "semantic_hash": "057c0aa049424240694667ab243ebdd9"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\reader\\TtsService.kt": {
+    "mtime": 1781271388.4375863,
+    "ast_hash": "7729c2b963806616fd1f8009eb2e018b",
+    "semantic_hash": "7729c2b963806616fd1f8009eb2e018b"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\theme\\Color.kt": {
+    "mtime": 1781194068.490693,
+    "ast_hash": "23039f9e9ff55a431189c72b57c96abc",
+    "semantic_hash": "23039f9e9ff55a431189c72b57c96abc"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\theme\\Theme.kt": {
+    "mtime": 1781275298.245896,
+    "ast_hash": "649ff80c21149765beff9eb0a0c41321",
+    "semantic_hash": "649ff80c21149765beff9eb0a0c41321"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\theme\\Type.kt": {
+    "mtime": 1781201482.9115903,
+    "ast_hash": "85822bcdb44c6ec435327f22427c882a",
+    "semantic_hash": "85822bcdb44c6ec435327f22427c882a"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\ui\\components\\BookDetailDialog.kt": {
+    "mtime": 1781278893.3677113,
+    "ast_hash": "55b5ff038c1a75c622387964f06e50be",
+    "semantic_hash": "55b5ff038c1a75c622387964f06e50be"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\ui\\components\\FloatingCapsuleNavBar.kt": {
+    "mtime": 1781207649.3827724,
+    "ast_hash": "54766f1ba25b43b12a1203a29db0bee0",
+    "semantic_hash": "54766f1ba25b43b12a1203a29db0bee0"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\ui\\main\\MainScreen.kt": {
+    "mtime": 1781279259.1999683,
+    "ast_hash": "cead5e4de38c221d8f3cf984398cc2ff",
+    "semantic_hash": "cead5e4de38c221d8f3cf984398cc2ff"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\ui\\main\\MainScreenViewModel.kt": {
+    "mtime": 1781172268.5625236,
+    "ast_hash": "2b1ff43396bd46f19fc17c989d7a0543",
+    "semantic_hash": "2b1ff43396bd46f19fc17c989d7a0543"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\ui\\main\\QuotesTab.kt": {
+    "mtime": 1781212017.808054,
+    "ast_hash": "23d4b457bfa42ef82182b8c70b00645a",
+    "semantic_hash": "23d4b457bfa42ef82182b8c70b00645a"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\ui\\reader\\ReaderScreen.kt": {
+    "mtime": 1781365484.1383514,
+    "ast_hash": "94aebd5a898b8168568042baec9f80df",
+    "semantic_hash": "94aebd5a898b8168568042baec9f80df"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\ui\\settings\\SettingsScreen.kt": {
+    "mtime": 1781278853.6041641,
+    "ast_hash": "6ab2c62a65abb57ae38a3a1d876142a5",
+    "semantic_hash": "6ab2c62a65abb57ae38a3a1d876142a5"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\java\\com\\example\\andbook\\ui\\settings\\StatsScreen.kt": {
+    "mtime": 1781267562.6088693,
+    "ast_hash": "63ada28a07746c212679e8357f95bede",
+    "semantic_hash": "63ada28a07746c212679e8357f95bede"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\test\\java\\com\\example\\andbook\\ui\\main\\MainScreenViewModelTest.kt": {
+    "mtime": 1781170077.5654664,
+    "ast_hash": "062e35189aa4118e2b871131b8e5219c",
+    "semantic_hash": "062e35189aa4118e2b871131b8e5219c"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\build.gradle.kts": {
+    "mtime": 1781170077.2373266,
+    "ast_hash": "aa88c6c665b41d3ab89c3cd8b0c7d128",
+    "semantic_hash": "aa88c6c665b41d3ab89c3cd8b0c7d128"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\gradlew": {
+    "mtime": 1781170077.2543433,
+    "ast_hash": "857faf4b42fc9e324fb40b7223f2a94a",
+    "semantic_hash": "857faf4b42fc9e324fb40b7223f2a94a"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\onboarding_animation.py": {
+    "mtime": 1781275366.3925948,
+    "ast_hash": "c45ea23bd2ab43078dd7f8860ed1e93a",
+    "semantic_hash": "c45ea23bd2ab43078dd7f8860ed1e93a"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\settings.gradle.kts": {
+    "mtime": 1781170077.2608855,
+    "ast_hash": "a3ff2bc930a1851186aa389fec8127fe",
+    "semantic_hash": "a3ff2bc930a1851186aa389fec8127fe"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.webp": {
+    "mtime": 1781170077.4127142,
+    "ast_hash": "39d9bb21eb48f128a71c3f01ad3cd427",
+    "semantic_hash": "39d9bb21eb48f128a71c3f01ad3cd427"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.webp": {
+    "mtime": 1781170077.4765925,
+    "ast_hash": "70d6f58af3c76ee221c829b1ce9daa04",
+    "semantic_hash": "70d6f58af3c76ee221c829b1ce9daa04"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.webp": {
+    "mtime": 1781170077.4805894,
+    "ast_hash": "d2acce71c7b46e5e9540d23a9f7b2166",
+    "semantic_hash": "d2acce71c7b46e5e9540d23a9f7b2166"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.webp": {
+    "mtime": 1781170077.4855936,
+    "ast_hash": "6376acb48f96a855ee95c113cd7fd616",
+    "semantic_hash": "6376acb48f96a855ee95c113cd7fd616"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.webp": {
+    "mtime": 1781170077.4875917,
+    "ast_hash": "bd087d80b70bec05a43c745f29dc3ffc",
+    "semantic_hash": "bd087d80b70bec05a43c745f29dc3ffc"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.webp": {
+    "mtime": 1781170077.4905915,
+    "ast_hash": "7479edd56ab712609f030054bffd7263",
+    "semantic_hash": "7479edd56ab712609f030054bffd7263"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.webp": {
+    "mtime": 1781170077.4925938,
+    "ast_hash": "ea180e8d1a2e8300cc998b987266b736",
+    "semantic_hash": "ea180e8d1a2e8300cc998b987266b736"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.webp": {
+    "mtime": 1781170077.5181477,
+    "ast_hash": "947842742b29eeda80ee0805e1600366",
+    "semantic_hash": "947842742b29eeda80ee0805e1600366"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.webp": {
+    "mtime": 1781170077.5309072,
+    "ast_hash": "54ab624970c86c2146e76b93f27586f7",
+    "semantic_hash": "54ab624970c86c2146e76b93f27586f7"
+  },
+  "C:\\Users\\Sourish\\Desktop\\AndBook\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.webp": {
+    "mtime": 1781170077.5449305,
+    "ast_hash": "9ee591be72fb336861a8044086054daa",
+    "semantic_hash": "9ee591be72fb336861a8044086054daa"
+  }
+}
