@@ -326,21 +326,18 @@ fun ReaderScreen(
     val activeBook = book
 
     if (isLoadingBook || activeBook == null) {
-        AndBookTheme(theme = settings.theme) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(color = MaterialTheme.colorScheme.tertiary)
-            }
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.tertiary)
         }
         return
     }
 
     if (loadError != null) {
-        AndBookTheme(theme = settings.theme) {
             Box(
                 modifier = modifier
                     .fillMaxSize()
@@ -390,7 +387,6 @@ fun ReaderScreen(
                     }
                 }
             }
-        }
         return
     }
 
@@ -425,7 +421,7 @@ fun ReaderScreen(
         }
     }
 
-    AndBookTheme(theme = settings.theme) {
+
         val customTextToolbar = remember {
             object : TextToolbar {
                 override fun showMenu(
@@ -3060,7 +3056,6 @@ fun ReaderScreen(
 
         }
     }
-}
 }
 
 // --- PDF Page Renderer Composable ---

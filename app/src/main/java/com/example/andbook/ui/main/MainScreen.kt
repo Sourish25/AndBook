@@ -165,7 +165,6 @@ fun MainScreen(
         if (selectedFormatFilter == null) scannedBooks else scannedBooks.filter { it.format == selectedFormatFilter }
     }
 
-    AndBookTheme(theme = settings.theme) {
         Surface(
             modifier = modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -315,7 +314,6 @@ fun MainScreen(
             }
         }
     }
-}
 
 // --- Custom Animated Book Component ---
 @Composable

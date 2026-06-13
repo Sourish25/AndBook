@@ -15,17 +15,7 @@ import java.io.File
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-open class DataRepository {
-
-    private val context: Context?
-
-    constructor(context: Context) {
-        this.context = context
-    }
-
-    constructor() {
-        this.context = null
-    }
+open class DataRepository(private val context: Context? = null) {
 
     open val data: Flow<List<String>> = flow { emit(emptyList()) }
 

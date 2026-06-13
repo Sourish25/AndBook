@@ -94,7 +94,6 @@ fun StatsScreen(
     val dailyAverageMins = (dailyAverageSeconds / 60).toInt()
     val dailyAverageSecs = (dailyAverageSeconds % 60).toInt()
 
-    AndBookTheme(theme = settings.theme) {
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -335,7 +334,6 @@ fun StatsScreen(
                 Spacer(modifier = Modifier.height(40.dp))
             }
         }
-    }
 }
 
 // Helper extension function to avoid complex logic inline
