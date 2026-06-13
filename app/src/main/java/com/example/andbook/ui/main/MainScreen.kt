@@ -73,7 +73,7 @@ fun MainScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val repository = remember { DataRepository(context.applicationContext) }
+    val repository = remember { DataRepository.getInstance(context.applicationContext) }
     
     val settings by repository.settings.collectAsStateWithLifecycle()
     val history by repository.history.collectAsStateWithLifecycle()
