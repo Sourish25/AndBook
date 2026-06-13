@@ -72,7 +72,11 @@ class MainActivity : ComponentActivity() {
             view.draw(canvas)
             
             snapshotBitmap = bitmap
-            animOffset = lastTouchPosition
+            animOffset = if (lastTouchPosition == Offset.Zero) {
+              Offset(view.width / 2f, view.height / 2f)
+            } else {
+              lastTouchPosition
+            }
             revealProgress = 0f
             
             // Switch current rendering theme

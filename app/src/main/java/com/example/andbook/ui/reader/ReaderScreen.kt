@@ -319,7 +319,15 @@ fun ReaderScreen(
         }
     }
 
-    BackHandler {
+    BackHandler(enabled = showFontSettingsDialog || showTocDialog) {
+        if (showFontSettingsDialog) {
+            showFontSettingsDialog = false
+        } else if (showTocDialog) {
+            showTocDialog = false
+        }
+    }
+
+    BackHandler(enabled = !showFontSettingsDialog && !showTocDialog) {
         TtsService.stopPlayback()
         onBack()
     }
@@ -2349,13 +2357,28 @@ fun ReaderScreen(
                     }
                 }
 
-                Dialog(onDismissRequest = { showTocDialog = false }) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.4f))
+                        .pointerInput(Unit) {
+                            detectTapGestures {
+                                showTocDialog = false
+                            }
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
                     Surface(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth(0.9f)
                             .fillMaxHeight(0.85f)
                             .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
-                            .clip(RoundedCornerShape(8.dp)),
+                            .clip(RoundedCornerShape(8.dp))
+                            .pointerInput(Unit) {
+                                detectTapGestures {
+                                    // Consume taps inside the surface to prevent click propagation
+                                }
+                            },
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column(
@@ -2510,13 +2533,28 @@ fun ReaderScreen(
 
             // --- Font Settings Dialog ---
             if (showFontSettingsDialog) {
-                Dialog(onDismissRequest = { showFontSettingsDialog = false }) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.4f))
+                        .pointerInput(Unit) {
+                            detectTapGestures {
+                                showFontSettingsDialog = false
+                            }
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
                     Surface(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth(0.9f)
                             .fillMaxHeight(0.85f)
                             .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
-                            .clip(RoundedCornerShape(8.dp)),
+                            .clip(RoundedCornerShape(8.dp))
+                            .pointerInput(Unit) {
+                                detectTapGestures {
+                                    // Consume taps inside the surface to prevent click propagation
+                                }
+                            },
                         color = MaterialTheme.colorScheme.background
                     ) {
                         Column(
