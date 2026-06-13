@@ -59,6 +59,9 @@ import com.example.andbook.ui.components.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.delay
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.LazyListState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,6 +82,20 @@ fun MainScreen(
 
     val scope = rememberCoroutineScope()
     var currentTab by remember { mutableStateOf(MainTab.HISTORY) }
+    val historyListState = rememberLazyListState()
+    
+    val collapseFraction by remember {
+        derivedStateOf {
+            if (currentTab == MainTab.HISTORY && historyListState.firstVisibleItemIndex == 0) {
+                (historyListState.firstVisibleItemScrollOffset / 150f).coerceIn(0f, 1f)
+            } else if (currentTab == MainTab.HISTORY) {
+                1f
+            } else {
+                0f
+            }
+        }
+    }
+    
     var selectedHistoryItemForDetail by remember { mutableStateOf<HistoryItem?>(null) }
     var selectedFormatFilter by remember { mutableStateOf<BookFormat?>(null) }
     var showClearHistoryDialog by remember { mutableStateOf(false) }
@@ -171,7 +188,9 @@ fun MainScreen(
                                 isScanning = isScanning,
                                 onScanRequested = { scope.launch { repository.scanBooksFolder() } },
                                 onShowSettings = { onItemClick(Settings) },
-                                onChangeFolder = { folderLauncher.launch(null) }
+                                onChangeFolder = { folderLauncher.launch(null) },
+                                collapseFraction = collapseFraction,
+                                onImportClick = { importBookLauncher.launch(arrayOf("*/*")) }
                             )
 
                             // Format Filter Chips
@@ -199,7 +218,8 @@ fun MainScreen(
                                         onTitleClick = { item -> onItemClick(Reader(item.book.uri)) },
                                         onDeleteBook = { uri -> scope.launch { repository.deleteFromHistory(uri) } },
                                         onClearAll = { showClearHistoryDialog = true },
-                                        systemFont = systemFont
+                                        systemFont = systemFont,
+                                        listState = historyListState
                                     )
                                 }
                                 MainTab.LIBRARY -> {
@@ -533,21 +553,57 @@ fun HeaderBar(
     isScanning: Boolean,
     onScanRequested: () -> Unit,
     onShowSettings: () -> Unit,
-    onChangeFolder: () -> Unit
+    onChangeFolder: () -> Unit,
+    collapseFraction: Float = 0f,
+    onImportClick: (() -> Unit)? = null
 ) {
     val configuration = androidx.compose.ui.platform.LocalConfiguration.current
     val isTablet = configuration.screenWidthDp > 600
 
+    val greetingAnim = remember { Animatable(0f) }
+    val subtitleAnim = remember { Animatable(0f) }
+    val EaseOutCubic = CubicBezierEasing(0.33f, 1f, 0.68f, 1f)
+
+    LaunchedEffect(currentTab) {
+        if (currentTab == MainTab.HISTORY) {
+            greetingAnim.snapTo(0f)
+            subtitleAnim.snapTo(0f)
+            launch {
+                greetingAnim.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(durationMillis = 600, easing = EaseOutCubic)
+                )
+            }
+            launch {
+                delay(120)
+                subtitleAnim.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(durationMillis = 600, easing = EaseOutCubic)
+                )
+            }
+        }
+    }
+
+    val paddingTop = (24 - 16 * collapseFraction).dp
+    val paddingBottom = (12 - 6 * collapseFraction).dp
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 12.dp),
+            .padding(top = paddingTop, start = 24.dp, end = 24.dp, bottom = paddingBottom),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(modifier = Modifier.weight(1f)) {
+            val sectionText = when (currentTab) {
+                MainTab.HISTORY -> "— &BOOK / VOL. 01 ·"
+                MainTab.LIBRARY -> "— &BOOK / LIBRARY ·"
+                MainTab.BROWSE -> "— &BOOK / BROWSE ·"
+                else -> "— &BOOK ·"
+            }
+            
             Text(
-                text = "— &BOOK / VOL. 01 ·",
+                text = sectionText,
                 fontFamily = JetBrainsMonoFontFamily,
                 fontSize = if (isTablet) 13.sp else 11.sp,
                 fontWeight = FontWeight.Bold,
@@ -555,32 +611,62 @@ fun HeaderBar(
                 modifier = Modifier.padding(bottom = 6.dp)
             )
 
-            // Greeting styled in Nyght Serif with bold + italic mixing
-            Text(
-                text = androidx.compose.ui.text.buildAnnotatedString {
-                    append("Hey, ")
-                    pushStyle(androidx.compose.ui.text.SpanStyle(fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, color = MaterialTheme.colorScheme.tertiary))
-                    append("Reader!")
-                    pop()
-                },
-                fontFamily = NyghtSerifFontFamily,
-                fontSize = if (isTablet) 48.sp else 36.sp,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            if (currentTab == MainTab.HISTORY) {
+                val startSize = if (isTablet) 56f else 44f
+                val endSize = if (isTablet) 32f else 26f
+                val fontSize = (startSize - (startSize - endSize) * collapseFraction).sp
 
-            Text(
-                text = androidx.compose.ui.text.buildAnnotatedString {
-                    append("What will you read ")
-                    pushStyle(androidx.compose.ui.text.SpanStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground))
-                    append("today?")
-                    pop()
-                },
-                fontFamily = NyghtSerifFontFamily,
-                fontSize = if (isTablet) 32.sp else 24.sp,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
-            )
+                Text(
+                    text = androidx.compose.ui.text.buildAnnotatedString {
+                        append("Hey, ")
+                        pushStyle(androidx.compose.ui.text.SpanStyle(fontStyle = FontStyle.Italic, fontWeight = FontWeight.Normal, color = MaterialTheme.colorScheme.tertiary))
+                        append("Reader!")
+                        pop()
+                    },
+                    fontFamily = NyghtSerifFontFamily,
+                    fontSize = fontSize,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.graphicsLayer {
+                        alpha = greetingAnim.value
+                        translationY = 12.dp.toPx() * (1f - greetingAnim.value)
+                    }
+                )
 
-            // Conditional folder path display (ONLY for Browse tab)
+                val subtitleAlpha = (1f - collapseFraction) * subtitleAnim.value
+                if (subtitleAlpha > 0.02f) {
+                    Text(
+                        text = androidx.compose.ui.text.buildAnnotatedString {
+                            append("What will you read ")
+                            pushStyle(androidx.compose.ui.text.SpanStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground))
+                            append("today?")
+                            pop()
+                        },
+                        fontFamily = NyghtSerifFontFamily,
+                        fontSize = if (isTablet) 32.sp else 24.sp,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f * subtitleAlpha),
+                        modifier = Modifier
+                            .graphicsLayer {
+                                alpha = subtitleAlpha
+                                translationY = 10.dp.toPx() * (1f - subtitleAnim.value)
+                            }
+                            .padding(top = (4 * (1f - collapseFraction)).dp)
+                    )
+                }
+            } else {
+                val tabTitle = when (currentTab) {
+                    MainTab.LIBRARY -> "My Library"
+                    MainTab.BROWSE -> "Browse Files"
+                    else -> ""
+                }
+                Text(
+                    text = tabTitle,
+                    fontFamily = NyghtSerifFontFamily,
+                    fontSize = if (isTablet) 36.sp else 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+
             if (currentTab == MainTab.BROWSE) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -629,6 +715,30 @@ fun HeaderBar(
                         }
                     }
                 }
+            }
+        }
+
+        if (currentTab == MainTab.LIBRARY && onImportClick != null) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .clickable { onImportClick() }
+                    .padding(vertical = 4.dp, horizontal = 8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Import book file",
+                    tint = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "Import",
+                    fontFamily = JetBrainsMonoFontFamily,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
             }
         }
     }
@@ -873,62 +983,60 @@ fun HistoryTab(
     onTitleClick: (HistoryItem) -> Unit,
     onDeleteBook: (String) -> Unit,
     onClearAll: () -> Unit,
-    systemFont: androidx.compose.ui.text.font.FontFamily = NyghtSerifFontFamily
+    systemFont: androidx.compose.ui.text.font.FontFamily = NyghtSerifFontFamily,
+    listState: androidx.compose.foundation.lazy.LazyListState = androidx.compose.foundation.lazy.rememberLazyListState()
 ) {
     if (historyList.isEmpty()) {
         EmptyStateMessage("No reading history yet. Start reading from the Browse tab!", systemFont = systemFont)
     } else {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(vertical = 12.dp)
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp, bottom = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text(
+                            text = "/ HISTORY / RECENTS",
+                            fontFamily = JetBrainsMonoFontFamily,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier.padding(bottom = 2.dp)
+                        )
+                        Text(
+                            text = "Recently Read",
+                            fontFamily = systemFont,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 22.sp
+                        )
+                    }
                     Text(
-                        text = "/ HISTORY / RECENTS",
+                        text = "Clear All",
                         fontFamily = JetBrainsMonoFontFamily,
-                        fontSize = 11.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.padding(bottom = 2.dp)
-                    )
-                    Text(
-                        text = "Recently Read",
-                        fontFamily = systemFont,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.clickable { onClearAll() }
                     )
                 }
-                Text(
-                    text = "Clear All",
-                    fontFamily = JetBrainsMonoFontFamily,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.clickable { onClearAll() }
-                )
             }
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth().weight(1f),
-                contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(historyList, key = { it.book.uri }) { item ->
-                    HistoryBookRow(
-                           item = item,
-                           onCoverClick = { onCoverClick(item) },
-                           onTitleClick = { onTitleClick(item) },
-                           onDelete = { onDeleteBook(item.book.uri) },
-                           systemFont = systemFont
-                       )
-                }
+            items(historyList, key = { it.book.uri }) { item ->
+                HistoryBookRow(
+                    item = item,
+                    onCoverClick = { onCoverClick(item) },
+                    onTitleClick = { onTitleClick(item) },
+                    onDelete = { onDeleteBook(item.book.uri) },
+                    systemFont = systemFont
+                )
             }
         }
     }
@@ -987,49 +1095,6 @@ fun LibraryTab(
                 .fillMaxSize()
                 .padding(vertical = 12.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp, bottom = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
-                    Text(
-                        text = "/ LIBRARY / SAVED",
-                        fontFamily = JetBrainsMonoFontFamily,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.padding(bottom = 2.dp)
-                    )
-                    Text(
-                        text = "My Library",
-                        fontFamily = systemFont,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
-                    )
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickable { onImportClick() }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Import book file",
-                        tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "Import",
-                        fontFamily = JetBrainsMonoFontFamily,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.tertiary
-                    )
-                }
-            }
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 140.dp),
                 modifier = Modifier.fillMaxWidth().weight(1f),
