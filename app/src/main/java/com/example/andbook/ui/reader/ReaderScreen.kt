@@ -144,7 +144,7 @@ fun ReaderScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val repository = remember { DataRepository(context.applicationContext) }
+    val repository = remember { DataRepository.getInstance(context.applicationContext) }
     val scope = rememberCoroutineScope()
 
     val settings by repository.settings.collectAsStateWithLifecycle()
@@ -204,10 +204,11 @@ fun ReaderScreen(
     val window = (context as? android.app.Activity)?.window
 
     val activeThemeColor = MaterialTheme.colorScheme.background
-    val isLightTheme = settings.theme == ReaderTheme.LIGHT_COFFEE
+    val activeReaderTheme = LocalReaderTheme.current
+    val isLightTheme = activeReaderTheme == ReaderTheme.LIGHT_COFFEE
 
     // Hide status bar when controls are hidden, set correct theme color when shown
-    LaunchedEffect(showControls, settings.theme) {
+    LaunchedEffect(showControls, activeReaderTheme) {
         if (window != null) {
             val insetsController = androidx.core.view.WindowCompat.getInsetsController(window, view)
             insetsController.systemBarsBehavior = androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -1207,7 +1208,7 @@ fun ReaderScreen(
                                                  )
                                              }
                                          } else {
-                                             val annotatedString = remember(textContent, actualPageIndex, pageOffsets, epubChapterIndex, epubBook, highlights, settings.theme) {
+                                             val annotatedString = remember(textContent, actualPageIndex, pageOffsets, epubChapterIndex, epubBook, highlights, activeReaderTheme) {
                                                  val pageStart = pageOffsets.getOrNull(actualPageIndex)?.first ?: -1
                                                  val pageEnd = pageOffsets.getOrNull(actualPageIndex)?.second ?: -1
                                                  val ch = epubBook?.chapters?.getOrNull(epubChapterIndex)
@@ -1224,7 +1225,7 @@ fun ReaderScreen(
                                                              if (localStart < localEnd) {
                                                                  addStyle(
                                                                      style = SpanStyle(
-                                                                         background = getHighlightColor(settings.theme)
+                                                                         background = getHighlightColor(activeReaderTheme)
                                                                      ),
                                                                      start = localStart,
                                                                      end = localEnd

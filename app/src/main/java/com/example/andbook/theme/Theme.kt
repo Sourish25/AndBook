@@ -5,11 +5,12 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import com.example.andbook.data.ReaderTheme
-
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import android.app.Activity
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 
 private val CoffeeLightColorScheme = lightColorScheme(
     primary = CoffeeLightPrimary,
@@ -50,6 +51,10 @@ private val AmoledColorScheme = darkColorScheme(
     outline = AmoledBorder
 )
 
+
+
+val LocalReaderTheme = staticCompositionLocalOf { ReaderTheme.LIGHT_COFFEE }
+
 @Composable
 fun AndBookTheme(
     theme: ReaderTheme = ReaderTheme.LIGHT_COFFEE,
@@ -76,8 +81,11 @@ fun AndBookTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+        typography = Typography
+    ) {
+        CompositionLocalProvider(LocalReaderTheme provides theme) {
+            content()
+        }
+    }
 }
 

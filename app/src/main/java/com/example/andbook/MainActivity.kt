@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import com.example.andbook.data.DataRepository
+import com.example.andbook.data.ReaderTheme
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
@@ -43,14 +44,18 @@ class MainActivity : ComponentActivity() {
 
     enableEdgeToEdge()
     setContent {
-      val repository = remember { DataRepository(applicationContext) }
+      val repository = remember { DataRepository.getInstance(applicationContext) }
       val settings by repository.settings.collectAsState()
+      val library by repository.library.collectAsState()
+
+      val isOnboarding = settings.booksFolderUri == null && library.isEmpty()
+      val targetTheme = if (isOnboarding) ReaderTheme.DARK_COFFEE else settings.theme
       
       // Track the last touch coordinate globally
       var lastTouchPosition by remember { mutableStateOf(Offset.Zero) }
       
       // Track theme states
-      var activeTheme by remember { mutableStateOf(settings.theme) }
+      var activeTheme by remember { mutableStateOf(targetTheme) }
       var snapshotBitmap by remember { mutableStateOf<Bitmap?>(null) }
       var revealProgress by remember { mutableStateOf(0f) }
       var animOffset by remember { mutableStateOf(Offset.Zero) }
@@ -58,8 +63,8 @@ class MainActivity : ComponentActivity() {
       val view = LocalView.current
       
       // Listen to theme changes to trigger circular reveal transition
-      LaunchedEffect(settings.theme) {
-        if (settings.theme != activeTheme) {
+      LaunchedEffect(targetTheme) {
+        if (targetTheme != activeTheme) {
           // Take static snapshot of the old theme before recomposition
           try {
             val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
@@ -71,7 +76,7 @@ class MainActivity : ComponentActivity() {
             revealProgress = 0f
             
             // Switch current rendering theme
-            activeTheme = settings.theme
+            activeTheme = targetTheme
             
             // Expand circle from 0f to 1f progress
             animate(
@@ -83,7 +88,7 @@ class MainActivity : ComponentActivity() {
             }
           } catch (e: Exception) {
             e.printStackTrace()
-            activeTheme = settings.theme
+            activeTheme = targetTheme
           } finally {
             snapshotBitmap = null
           }

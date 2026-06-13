@@ -46,7 +46,7 @@ fun MainNavigation(bookUriToOpen: String? = null, onBookUriOpened: () -> Unit = 
         }
         entry<Settings> {
           val context = androidx.compose.ui.platform.LocalContext.current
-          val repository = remember { com.example.andbook.data.DataRepository(context.applicationContext) }
+          val repository = remember { com.example.andbook.data.DataRepository.getInstance(context.applicationContext) }
           SettingsScreen(
               repository = repository,
               onBack = { backStack.removeLastOrNull() },
@@ -56,7 +56,7 @@ fun MainNavigation(bookUriToOpen: String? = null, onBookUriOpened: () -> Unit = 
         }
         entry<Stats> {
           val context = androidx.compose.ui.platform.LocalContext.current
-          val repository = remember { com.example.andbook.data.DataRepository(context.applicationContext) }
+          val repository = remember { com.example.andbook.data.DataRepository.getInstance(context.applicationContext) }
           StatsScreen(
               repository = repository,
               onBack = { backStack.removeLastOrNull() },

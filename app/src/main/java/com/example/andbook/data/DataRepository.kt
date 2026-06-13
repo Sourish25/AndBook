@@ -17,6 +17,17 @@ import kotlinx.coroutines.flow.flow
 
 open class DataRepository(private val context: Context? = null) {
 
+    companion object {
+        @Volatile
+        private var INSTANCE: DataRepository? = null
+
+        fun getInstance(context: Context): DataRepository {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: DataRepository(context.applicationContext).also { INSTANCE = it }
+            }
+        }
+    }
+
     open val data: Flow<List<String>> = flow { emit(emptyList()) }
 
     private val json = Json {

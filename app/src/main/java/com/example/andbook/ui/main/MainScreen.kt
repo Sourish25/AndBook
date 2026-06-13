@@ -9,6 +9,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.StrokeCap
 import android.graphics.Bitmap
 import android.net.Uri
+import android.widget.VideoView
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -418,125 +420,109 @@ fun AnimatedBookLogo(modifier: Modifier = Modifier) {
 // --- Onboarding Screen ---
 @Composable
 fun OnboardingScreen(onSelectFolder: () -> Unit, onImportFile: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(36.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color(0xFF1B1613) // Exact video background color
     ) {
-        AnimatedBookLogo()
-        Spacer(modifier = Modifier.height(28.dp))
-        
-        val titleAlpha = remember { Animatable(0f) }
-        val titleScale = remember { Animatable(0.6f) }
-        
-        LaunchedEffect(Unit) {
-            titleAlpha.animateTo(1f, animationSpec = tween(1200, easing = EaseOutQuad))
-        }
-        LaunchedEffect(Unit) {
-            titleScale.animateTo(
-                targetValue = 1f,
-                animationSpec = spring(
-                    dampingRatio = 0.55f,
-                    stiffness = Spring.StiffnessLow
-                )
-            )
-        }
-        
-        Row(
-            modifier = Modifier.graphicsLayer {
-                alpha = titleAlpha.value
-                scaleX = titleScale.value
-                scaleY = titleScale.value
-            },
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "&",
-                fontFamily = NyghtSerifFontFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 38.sp,
-                color = CoffeeLightTertiary
-            )
-            Spacer(modifier = Modifier.width(2.dp))
-            Text(
-                text = "Book",
-                fontFamily = NyghtSerifFontFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 38.sp,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-        Spacer(modifier = Modifier.height(14.dp))
-        Text(
-            text = "A world-class minimalist offline reader for your EPUBs, PDFs, and CBZs.",
-            fontFamily = InterFontFamily,
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.fillMaxWidth(0.9f),
-            lineHeight = 24.sp,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(44.dp))
-        
-        // Select Folder Button (Cocoa Dark)
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxWidth(0.85f)
-                .clip(RoundedCornerShape(4.dp))
-                .background(Color(0xFF1F1511))
-                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(4.dp))
-                .clickable { onSelectFolder() }
-                .padding(vertical = 14.dp),
-            contentAlignment = Alignment.Center
+                .fillMaxSize()
+                .padding(horizontal = 24.dp, vertical = 36.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.Folder,
-                    contentDescription = null,
-                    tint = Color(0xFFEFE6DD),
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Open Books Directory",
-                    fontFamily = InterFontFamily,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFEFE6DD)
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // The 4K 120 FPS video animation container
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f)
+                    .clip(RoundedCornerShape(8.dp))
+                    .border(1.dp, Color(0xFF332A24), RoundedCornerShape(8.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                val context = LocalContext.current
+                AndroidView(
+                    modifier = Modifier.fillMaxSize(),
+                    factory = { ctx ->
+                        VideoView(ctx).apply {
+                            val uri = Uri.parse("android.resource://${ctx.packageName}/${com.example.andbook.R.raw.onboarding_animation}")
+                            setVideoURI(uri)
+                            setBackgroundColor(android.graphics.Color.TRANSPARENT)
+                            setOnPreparedListener { mediaPlayer ->
+                                mediaPlayer.isLooping = true
+                                mediaPlayer.start()
+                            }
+                        }
+                    }
                 )
             }
-        }
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        // Import Single File Button (Neutral Outlined)
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.85f)
-                .clip(RoundedCornerShape(4.dp))
-                .background(MaterialTheme.colorScheme.surface)
-                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(4.dp))
-                .clickable { onImportFile() }
-                .padding(vertical = 14.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Import Book File",
-                    fontFamily = InterFontFamily,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Select Folder Button (Cocoa Dark)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(Color(0xFF1F1511))
+                        .border(1.dp, Color(0xFF332A24), RoundedCornerShape(4.dp))
+                        .clickable { onSelectFolder() }
+                        .padding(vertical = 14.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Folder,
+                            contentDescription = null,
+                            tint = Color(0xFFEFE6DD),
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Open Books Directory",
+                            fontFamily = InterFontFamily,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFEFE6DD)
+                        )
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                // Import Single File Button (Neutral Outlined)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(Color(0xFF241D1A)) // Dark warm espresso card matching theme
+                        .border(1.dp, Color(0xFF332A24), RoundedCornerShape(4.dp))
+                        .clickable { onImportFile() }
+                        .padding(vertical = 14.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            tint = Color(0xFFE6DFD5),
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Import Book File",
+                            fontFamily = InterFontFamily,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFE6DFD5)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }
