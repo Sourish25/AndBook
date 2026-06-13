@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -39,6 +40,7 @@ fun SettingsScreen(
     repository: DataRepository,
     onBack: () -> Unit,
     onNavigateToStats: () -> Unit,
+    onNavigateToAnimations: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -323,19 +325,53 @@ fun SettingsScreen(
                 Spacer(modifier = Modifier.height(28.dp))
 
                 // --- Section: Animation Speed ---
-                val speedPercent = (settings.animationSpeedMultiplier * 100).toInt()
-                SettingsSectionHeader("ANIMATION SPEED: ${speedPercent}%")
-                Slider(
-                    value = settings.animationSpeedMultiplier,
-                    onValueChange = { multiplier -> scope.launch { repository.updateSettings { it.copy(animationSpeedMultiplier = multiplier) } } },
-                    valueRange = 0.2f..3.0f,
-                    steps = 13,
-                    colors = SliderDefaults.colors(
-                        activeTrackColor = MaterialTheme.colorScheme.tertiary,
-                        inactiveTrackColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
-                        thumbColor = MaterialTheme.colorScheme.tertiary
-                    )
-                )
+                SettingsSectionHeader("MOTION & TRANSITIONS")
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+                        .clickable { onNavigateToAnimations() },
+                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.Tune,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.tertiary,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column {
+                                Text(
+                                    text = "Animation Settings",
+                                    fontFamily = NyghtSerifFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 17.sp,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "Configure speeds for theme transitions and zoom springs",
+                                    fontFamily = InterFontFamily,
+                                    fontSize = 13.sp,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            }
+                        }
+                        Icon(
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(28.dp))
 

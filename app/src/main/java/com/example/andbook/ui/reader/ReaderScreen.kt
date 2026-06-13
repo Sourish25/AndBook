@@ -3326,7 +3326,7 @@ fun ZoomablePage(
                                 if (targetScale > 1.05f) {
                                     onZoomChanged(true)
                                 }
-                                val zoomStiffness = Spring.StiffnessLow * settings.animationSpeedMultiplier
+                                val zoomStiffness = Spring.StiffnessLow * settings.zoomAnimationSpeedMultiplier
                                 coroutineScope.launch {
                                     animate(
                                         initialValue = scale,

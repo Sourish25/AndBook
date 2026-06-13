@@ -11,3 +11,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable data object Stats : NavKey
 
+@Serializable data object AnimationSettings : NavKey
+

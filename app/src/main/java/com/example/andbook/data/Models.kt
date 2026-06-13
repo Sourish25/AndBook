@@ -59,6 +59,8 @@ data class AppSettings(
     val showTtsHighlight: Boolean = true,
     val use12HourClockFormat: Boolean = false,
     val animationSpeedMultiplier: Float = 1.0f,
+    val themeAnimationSpeedMultiplier: Float = 0.3f,
+    val zoomAnimationSpeedMultiplier: Float = 1.0f,
     val dailyHistory: Map<String, Long> = emptyMap()
 )
 

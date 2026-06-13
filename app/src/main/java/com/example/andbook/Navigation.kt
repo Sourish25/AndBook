@@ -14,6 +14,7 @@ import com.example.andbook.ui.main.MainScreen
 import com.example.andbook.ui.reader.ReaderScreen
 import com.example.andbook.ui.settings.SettingsScreen
 import com.example.andbook.ui.settings.StatsScreen
+import com.example.andbook.ui.settings.AnimationSettingsScreen
 import androidx.compose.runtime.LaunchedEffect
 
 @Composable
@@ -51,6 +52,7 @@ fun MainNavigation(bookUriToOpen: String? = null, onBookUriOpened: () -> Unit = 
               repository = repository,
               onBack = { backStack.removeLastOrNull() },
               onNavigateToStats = { backStack.add(Stats) },
+              onNavigateToAnimations = { backStack.add(AnimationSettings) },
               modifier = Modifier.fillMaxSize()
           )
         }
@@ -58,6 +60,15 @@ fun MainNavigation(bookUriToOpen: String? = null, onBookUriOpened: () -> Unit = 
           val context = androidx.compose.ui.platform.LocalContext.current
           val repository = remember { com.example.andbook.data.DataRepository.getInstance(context.applicationContext) }
           StatsScreen(
+              repository = repository,
+              onBack = { backStack.removeLastOrNull() },
+              modifier = Modifier.fillMaxSize()
+          )
+        }
+        entry<AnimationSettings> {
+          val context = androidx.compose.ui.platform.LocalContext.current
+          val repository = remember { com.example.andbook.data.DataRepository.getInstance(context.applicationContext) }
+          AnimationSettingsScreen(
               repository = repository,
               onBack = { backStack.removeLastOrNull() },
               modifier = Modifier.fillMaxSize()

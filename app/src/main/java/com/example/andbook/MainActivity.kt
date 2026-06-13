@@ -82,7 +82,7 @@ class MainActivity : ComponentActivity() {
             // Switch current rendering theme
             activeTheme = targetTheme
             
-            val duration = (500 / settings.animationSpeedMultiplier).toInt()
+            val duration = (500 / settings.themeAnimationSpeedMultiplier).toInt()
             // Expand circle from 0f to 1f progress
             animate(
               initialValue = 0f,
