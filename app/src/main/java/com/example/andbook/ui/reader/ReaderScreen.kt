@@ -3161,6 +3161,10 @@ fun ZoomablePage(
     onNavigateForward: () -> Unit,
     content: @Composable BoxScope.(scale: Float, offset: Offset) -> Unit
 ) {
+    val context = LocalContext.current
+    val repository = remember { DataRepository.getInstance(context.applicationContext) }
+    val settings by repository.settings.collectAsStateWithLifecycle()
+
     var scale by remember(zoomKey) { mutableFloatStateOf(1f) }
     var offset by remember(zoomKey) { mutableStateOf(Offset.Zero) }
     val coroutineScope = rememberCoroutineScope()
@@ -3284,11 +3288,12 @@ fun ZoomablePage(
                                 if (targetScale > 1.05f) {
                                     onZoomChanged(true)
                                 }
+                                val zoomStiffness = Spring.StiffnessLow * settings.animationSpeedMultiplier
                                 coroutineScope.launch {
                                     animate(
                                         initialValue = scale,
                                         targetValue = targetScale,
-                                        animationSpec = spring(stiffness = Spring.StiffnessLow)
+                                        animationSpec = spring(stiffness = zoomStiffness)
                                     ) { value, _ ->
                                         scale = value
                                     }
@@ -3301,7 +3306,7 @@ fun ZoomablePage(
                                     animate(
                                         initialValue = 0f,
                                         targetValue = 1f,
-                                        animationSpec = spring(stiffness = Spring.StiffnessLow)
+                                        animationSpec = spring(stiffness = zoomStiffness)
                                     ) { fraction, _ ->
                                         offset = Offset(
                                             x = startOffset.x + (Offset.Zero.x - startOffset.x) * fraction,

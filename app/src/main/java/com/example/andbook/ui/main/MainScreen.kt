@@ -37,6 +37,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -617,7 +618,21 @@ fun HeaderBar(
                 )
 
                 val subtitleAlpha = (1f - collapseFraction) * subtitleAnim.value
-                if (subtitleAlpha > 0.02f) {
+                val baseHeight = if (isTablet) 42.dp else 32.dp
+                val subtitleHeight = baseHeight * (1f - collapseFraction)
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(subtitleHeight)
+                        .graphicsLayer {
+                            alpha = subtitleAlpha
+                            translationY = 10.dp.toPx() * (1f - subtitleAnim.value)
+                        }
+                        .padding(top = (4 * (1f - collapseFraction)).dp)
+                        .clipToBounds(),
+                    contentAlignment = Alignment.CenterStart
+                ) {
                     Text(
                         text = androidx.compose.ui.text.buildAnnotatedString {
                             append("What will you read ")
@@ -627,13 +642,9 @@ fun HeaderBar(
                         },
                         fontFamily = NyghtSerifFontFamily,
                         fontSize = if (isTablet) 32.sp else 24.sp,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f * subtitleAlpha),
-                        modifier = Modifier
-                            .graphicsLayer {
-                                alpha = subtitleAlpha
-                                translationY = 10.dp.toPx() * (1f - subtitleAnim.value)
-                            }
-                            .padding(top = (4 * (1f - collapseFraction)).dp)
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Clip
                     )
                 }
             } else {

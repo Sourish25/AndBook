@@ -78,11 +78,12 @@ class MainActivity : ComponentActivity() {
             // Switch current rendering theme
             activeTheme = targetTheme
             
+            val duration = (500 / settings.animationSpeedMultiplier).toInt()
             // Expand circle from 0f to 1f progress
             animate(
               initialValue = 0f,
               targetValue = 1f,
-              animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
+              animationSpec = tween(durationMillis = duration, easing = LinearOutSlowInEasing)
             ) { value, _ ->
               revealProgress = value
             }

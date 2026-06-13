@@ -322,6 +322,23 @@ fun SettingsScreen(
 
                 Spacer(modifier = Modifier.height(28.dp))
 
+                // --- Section: Animation Speed ---
+                val speedPercent = (settings.animationSpeedMultiplier * 100).toInt()
+                SettingsSectionHeader("ANIMATION SPEED: ${speedPercent}%")
+                Slider(
+                    value = settings.animationSpeedMultiplier,
+                    onValueChange = { multiplier -> scope.launch { repository.updateSettings { it.copy(animationSpeedMultiplier = multiplier) } } },
+                    valueRange = 0.2f..3.0f,
+                    steps = 13,
+                    colors = SliderDefaults.colors(
+                        activeTrackColor = MaterialTheme.colorScheme.tertiary,
+                        inactiveTrackColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                        thumbColor = MaterialTheme.colorScheme.tertiary
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(28.dp))
+
                 // --- Section: Storage Directory ---
                 SettingsSectionHeader("LIBRARY DIRECTORY")
                 OutlinedButton(

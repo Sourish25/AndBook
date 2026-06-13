@@ -58,6 +58,7 @@ data class AppSettings(
     val autoPlayNextChapter: Boolean = false,
     val showTtsHighlight: Boolean = true,
     val use12HourClockFormat: Boolean = false,
+    val animationSpeedMultiplier: Float = 1.0f,
     val dailyHistory: Map<String, Long> = emptyMap()
 )
 
